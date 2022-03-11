@@ -1,0 +1,1 @@
+sudo servx -n "kenzer" -c "cd /root/kenzer/ && ./run.sh" -e
