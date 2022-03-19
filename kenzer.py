@@ -58,7 +58,7 @@ class Kenzer(object):
 
     # initializations
     def __init__(self):
-        print(BLUE+"KENZER[3.37] by ARPSyndicate"+CLEAR)
+        print(BLUE+"KENZER[3.38] by ARPSyndicate"+CLEAR)
         print(YELLOW+"automated web assets enumeration & scanning"+CLEAR)
         self.client = zulip.Client(email=_BotMail, site=_Site, api_key=_APIKey)
         self.upload = False
@@ -92,7 +92,7 @@ class Kenzer(object):
 
     # manual
     def man(self):
-        message = "**KENZER[3.37]**\n"
+        message = "**KENZER[3.38]**\n"
         message += "**KENZER modules**\n"
         message += "`blacklist <target>,<regex>` - initializes & removes blacklisted targets\n"
         message += "`whitelist <target>,<regex>` - initializes & keeps only whitelisted targets\n"
@@ -136,6 +136,7 @@ class Kenzer(object):
         message += "`freaker <module> [<target>]` - runs freaker module\n"
         message += "`kenzer <module>` - runs a specific module\n"
         message += "`kenzer man` - shows this manual\n"
+        message += "multiple commands must be separated by comma(,)\n"
         message += "or you can just interact with chatterbot\n"
         self.sendMessage(message)
         return
@@ -1061,134 +1062,135 @@ class Kenzer(object):
             return
         try:
             if len(content) > 1 and content[0].lower() == "@**{0}**".format(_BotMail.split('@')[0].replace("-bot", "")):
-                if content[1].lower() == "man":
-                    if len(content) == 2:
-                        self.man()
-                    else:
-                        message = "excuse me???"
-                        self.sendMessage(message)
-                elif content[1].lower() == "monitor":
-                    if content[2].lower() == "normalize":
-                        self.normalize()
-                    elif content[2].lower() == "db":
-                        self.monitor_kenzerdb()
-                    elif content[2].lower() == "autohunt":
-                        if len(content) == 4:
-                            self.monitor_autohunt(int(content[3]))
+                for comd in content[1].split(","):
+                    if comd.lower() == "man":
+                        if len(content) == 2:
+                            self.man()
                         else:
-                            self.monitor_autohunt()
+                            message = "excuse me???"
+                            self.sendMessage(message)
+                    elif comd.lower() == "monitor":
+                        if content[2].lower() == "normalize":
+                            self.normalize()
+                        elif content[2].lower() == "db":
+                            self.monitor_kenzerdb()
+                        elif content[2].lower() == "autohunt":
+                            if len(content) == 4:
+                                self.monitor_autohunt(int(content[3]))
+                            else:
+                                self.monitor_autohunt()
+                        else:
+                            self.monitor()
+                    elif comd.lower() == "blacklist":
+                        self.blacklist()
+                    elif comd.lower() == "whitelist":
+                        self.whitelist()
+                    elif comd.lower() == "program":
+                        self.program()
+                    elif comd.split("-")[0].lower() == "subenum":
+                        if len(comd.split("-")) > 1:
+                            self.subenum(comd.split("-")[1].lower())
+                        else:
+                            self.subenum()
+                    elif comd.lower() == "repenum":
+                        self.repenum()
+                    elif comd.lower() == "repoenum":
+                        self.repoenum()
+                    elif comd.lower() == "webenum":
+                        self.webenum()
+                    elif comd.lower() == "servenum":
+                        self.servenum()
+                    elif comd.lower() == "socenum":
+                        self.socenum()
+                    elif comd.lower() == "headenum":
+                        self.headenum()
+                    elif comd.lower() == "urlheadenum":
+                        self.urlheadenum()
+                    elif comd.lower() == "asnenum":
+                        self.asnenum()
+                    elif comd.lower() == "dnsenum":
+                        self.dnsenum()
+                    elif comd.lower() == "conenum":
+                        self.conenum()
+                    elif comd.lower() == "favscan":
+                        self.favscan()
+                    elif comd.split("-")[0].lower() == "portenum":
+                        if len(comd.split("-")) > 1:
+                            self.portenum(comd.split("-")[1].lower())
+                        else:
+                            self.portenum()
+                    elif comd.split("-")[0].lower() == "urlenum":
+                        if len(comd.split("-")) > 1:
+                            self.urlenum(comd.split("-")[1].lower())
+                        else:
+                            self.urlenum()
+                    elif comd.lower() == "subscan":
+                        self.subscan()
+                    elif comd.split("-")[0].lower() == "cscan":
+                        if len(comd.split("-")) > 1:
+                            for sev in range(1,len(comd.split("-"))):
+                                self.cscan(comd.split("-")[sev].lower())
+                        else:
+                            self.cscan()
+                    elif comd.split("-")[0].lower() == "cvescan":
+                        if len(comd.split("-")) > 1:
+                            for sev in range(1,len(comd.split("-"))):
+                                self.cvescan(comd.split("-")[sev].lower())
+                        else:
+                            self.cvescan()
+                    elif comd.split("-")[0].lower() == "vulnscan":
+                        if len(comd.split("-")) > 1:
+                            for sev in range(1,len(comd.split("-"))):
+                                self.vulnscan(comd.split("-")[sev].lower())
+                        else:
+                            self.vulnscan()
+                    elif comd.lower() == "portscan":
+                        self.portscan()
+                    elif comd.lower() == "shodscan":
+                        self.shodscan()
+                    elif comd.lower() == "reposcan":
+                        self.reposcan()
+                    elif comd.split("-")[0].lower() == "endscan":
+                        if len(comd.split("-")) > 1:
+                            for sev in range(1,len(comd.split("-"))):
+                                self.endscan(comd.split("-")[sev].lower())
+                        else:
+                            self.endscan()
+                    elif comd.split("-")[0].lower() == "idscan":
+                        if len(comd.split("-")) > 1:
+                            for sev in range(1,len(comd.split("-"))):
+                                self.idscan(comd.split("-")[sev].lower())
+                        else:
+                            self.idscan()
+                    elif comd.lower() == "vizscan":
+                        self.vizscan()
+                    elif comd.lower() == "buckscan":
+                        self.buckscan()
+                    elif comd.lower() == "enum":
+                        self.enumall()
+                    elif comd.lower() == "scan":
+                        self.scanall()
+                    elif comd.lower() == "hunt":
+                        self.hunt()
+                    elif comd.lower() == "recon":
+                        self.recon()
+                    elif comd.lower() == "sync":
+                        self.sync()
+                    elif comd.lower() == "freaker":
+                        if len(content) >= 4:
+                            for i in range(3, len(content)):
+                                self.freaker(content[2].lower(), content[i].lower())
+                        else:
+                            self.freaker(content[2].lower(), "*")
+                    elif comd.lower() == "upgrade":
+                        self.upgrade()
+                    elif comd.lower() == "upload":
+                        self.upload = not self.upload
+                        self.sendMessage("upload: "+str(self.upload))
                     else:
-                        self.monitor()
-                elif content[1].lower() == "blacklist":
-                    self.blacklist()
-                elif content[1].lower() == "whitelist":
-                    self.whitelist()
-                elif content[1].lower() == "program":
-                    self.program()
-                elif content[1].split("-")[0].lower() == "subenum":
-                    if len(content[1].split("-")) > 1:
-                        self.subenum(content[1].split("-")[1].lower())
-                    else:
-                        self.subenum()
-                elif content[1].lower() == "repenum":
-                    self.repenum()
-                elif content[1].lower() == "repoenum":
-                    self.repoenum()
-                elif content[1].lower() == "webenum":
-                    self.webenum()
-                elif content[1].lower() == "servenum":
-                    self.servenum()
-                elif content[1].lower() == "socenum":
-                    self.socenum()
-                elif content[1].lower() == "headenum":
-                    self.headenum()
-                elif content[1].lower() == "urlheadenum":
-                    self.urlheadenum()
-                elif content[1].lower() == "asnenum":
-                    self.asnenum()
-                elif content[1].lower() == "dnsenum":
-                    self.dnsenum()
-                elif content[1].lower() == "conenum":
-                    self.conenum()
-                elif content[1].lower() == "favscan":
-                    self.favscan()
-                elif content[1].split("-")[0].lower() == "portenum":
-                    if len(content[1].split("-")) > 1:
-                        self.portenum(content[1].split("-")[1].lower())
-                    else:
-                        self.portenum()
-                elif content[1].split("-")[0].lower() == "urlenum":
-                    if len(content[1].split("-")) > 1:
-                        self.urlenum(content[1].split("-")[1].lower())
-                    else:
-                        self.urlenum()
-                elif content[1].lower() == "subscan":
-                    self.subscan()
-                elif content[1].split("-")[0].lower() == "cscan":
-                    if len(content[1].split("-")) > 1:
-                        for sev in range(1,len(content[1].split("-"))):
-                            self.cscan(content[1].split("-")[sev].lower())
-                    else:
-                        self.cscan()
-                elif content[1].split("-")[0].lower() == "cvescan":
-                    if len(content[1].split("-")) > 1:
-                        for sev in range(1,len(content[1].split("-"))):
-                            self.cvescan(content[1].split("-")[sev].lower())
-                    else:
-                        self.cvescan()
-                elif content[1].split("-")[0].lower() == "vulnscan":
-                    if len(content[1].split("-")) > 1:
-                        for sev in range(1,len(content[1].split("-"))):
-                            self.vulnscan(content[1].split("-")[sev].lower())
-                    else:
-                        self.vulnscan()
-                elif content[1].lower() == "portscan":
-                    self.portscan()
-                elif content[1].lower() == "shodscan":
-                    self.shodscan()
-                elif content[1].lower() == "reposcan":
-                    self.reposcan()
-                elif content[1].split("-")[0].lower() == "endscan":
-                    if len(content[1].split("-")) > 1:
-                        for sev in range(1,len(content[1].split("-"))):
-                            self.endscan(content[1].split("-")[sev].lower())
-                    else:
-                        self.endscan()
-                elif content[1].split("-")[0].lower() == "idscan":
-                    if len(content[1].split("-")) > 1:
-                        for sev in range(1,len(content[1].split("-"))):
-                            self.idscan(content[1].split("-")[sev].lower())
-                    else:
-                        self.idscan()
-                elif content[1].lower() == "vizscan":
-                    self.vizscan()
-                elif content[1].lower() == "buckscan":
-                    self.buckscan()
-                elif content[1].lower() == "enum":
-                    self.enumall()
-                elif content[1].lower() == "scan":
-                    self.scanall()
-                elif content[1].lower() == "hunt":
-                    self.hunt()
-                elif content[1].lower() == "recon":
-                    self.recon()
-                elif content[1].lower() == "sync":
-                    self.sync()
-                elif content[1].lower() == "freaker":
-                    if len(content) >= 4:
-                        for i in range(3, len(content)):
-                            self.freaker(content[2].lower(), content[i].lower())
-                    else:
-                        self.freaker(content[2].lower(), "*")
-                elif content[1].lower() == "upgrade":
-                    self.upgrade()
-                elif content[1].lower() == "upload":
-                    self.upload = not self.upload
-                    self.sendMessage("upload: "+str(self.upload))
-                else:
-                    message = self.chatbot.get_response(' '.join(self.content))
-                    message = message.serialize()['text']
-                    self.sendMessage(message)
+                        message = self.chatbot.get_response(' '.join(self.content))
+                        message = message.serialize()['text']
+                        self.sendMessage(message)
         except Exception as exception:
             self.sendMessage("[exception] {0}:{1}".format(
                 type(exception).__name__, str(exception)))

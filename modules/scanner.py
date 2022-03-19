@@ -294,6 +294,7 @@ class Scanner:
         os.system("cat {0} | aquatone -threads=10 -http-timeout=15000 -resolution=\"720,480\" -save-body=false -out={1} -screenshot-timeout=200000 -chrome-path /usr/share/chrome-linux/chrome".format(subs, path+"/aquatone"))
         os.system("for i in `ls {0}/aquatone/screenshots`; do mv {0}/aquatone/screenshots/$i {0}/vizscan/$(echo $i | sed -E -e \"s/__[a-z0-9]{{16}}//g\" -e \"s/http[s]*__//g\" -e \"s/__/\:/g\" -e \"s/_/./g\"); done;".format(path))
         os.system("perceptic -d {1}/vizscan -o {0} -t 30 && sed -i \"s/.png//g\" {0}".format(out,path))
+        os.system("while read p; do dom=`echo \"$p\" | cut -d \" \" -f 2`; sig=`echo \"$p\" | cut -d \" \" -f 1 | sed 's/\[//' | sed 's/\]//'`; mv \"{0}/vizscan/$dom.png\" \"{0}/vizscan/$sig#$dom.png\"; done < {0}/vizscan.kenz;".format(path))
         line = 0
         if(os.path.exists(out)):
             with open(subs, encoding="ISO-8859-1") as f:
